@@ -117,21 +117,20 @@ def organizar(linhas):
   
     l = l.strip() 
     tokens = l.split()
-    i = 0
-    while i < len(tokens):
-      if DataValida(tokens[i]) == True:
-        data = tokens[i]
-      elif contextoValido(tokens[i]) == True:
-        contexto = tokens[i]
-      elif projetoValido(tokens[i]) == True:
-        projeto = tokens[i]
-      elif prioridadeValida(tokens[i]) == True:
-        pri = tokens[i]
-      elif horaValida(tokens[i]) == True:
-        hora = tokens[i]
-      else:
-        desc = tokens[i]
-      i = i + 1
+    while tokens != []:
+     for x in tokens:
+       if DataValida(x) == True:
+         data = tokens.pop(0)
+       elif contextoValido(x) == True:
+         contexto = tokens.pop(0)
+       elif projetoValido(x) == True:
+         projeto = tokens.pop(0)
+       elif prioridadeValida(x) == True:
+         pri = tokens.pop(0)
+       elif horaValida(x) == True:
+         hora = tokens.pop(0)
+       else:
+         desc = desc + tokens.pop(0) + ' '
     itens.append((desc, (data, hora, pri, contexto, projeto)))
 
   return itens
