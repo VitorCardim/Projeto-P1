@@ -53,13 +53,14 @@ def adicionar(descricao, extras):
     print(err)
     return False
   return True
-
-
-# Valida a prioridade.
 def prioridadeValida(pri):
-
-  ################ COMPLETAR
-  
+  pri = pri.strip('(')
+  pri = pri.strip(')')
+  pri = pri.lower()
+  lista = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+  for x in lista:
+    if x == pri:
+      return True
   return False
 
 
