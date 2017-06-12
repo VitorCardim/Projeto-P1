@@ -96,13 +96,13 @@ def dataValida(data) :
     mes30 = [4,6,8,10,11]
     mes31 =[1,3,5,7,9,12]
     if mes <= 12 and mes >= 1:
-      if dia == 2 and mes == 28:
+      if dia <= 29:
         return True
-      if dia == 30:
+      elif dia == 30:
         for x in mes30:
           if x == mes:
             return True
-      if dia == 31:
+      elif dia == 31:
         for x in mes31:
           if x == 30:
             return True
@@ -112,7 +112,7 @@ def projetoValido(proj):
     return True
   return False
 def contextoValido(cont):
-  if len(cont) >= 2 and cont[0:1] == '+':
+  if len(cont) >= 2 and cont[0:1] == '@':
     return True
   return False
 def soDigitos(numero) :
