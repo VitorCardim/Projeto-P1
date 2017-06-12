@@ -62,25 +62,6 @@ def prioridadeValida(pri):
     if x == pri:
       return True
   return False
-
-def soDigitos(digitos):
-  lista = []
-  listan = ['0','1','2','3','4','5','6','7','8','9']
-  i = 0
-  while i < len(digitos):
-    lista.append(digitos[i])
-    i = i + 1
-  i = 0
-  contador = 0
-  while i < len(lista):
-    for x in listan:
-      if x == lista[i]:
-        contador = contador + 1
-    i = i+1
-  if len(lista)-1 == contador:
-    return True
-  else:
-    return False
 def horaValida(horaMin) :
   if len(horaMin) != 4 or not soDigitos(horaMin):
     return False
@@ -112,16 +93,10 @@ def projetoValido(proj):
   if len(proj) >= 2 and proj[0:1] == '+':
     return True
   return False
-
-# Valida que o string do contexto está no formato correto. 
 def contextoValido(cont):
-
-  ################ COMPLETAR
-
+  if len(proj) >= 2 and proj[0:1] == '+':
+    return True
   return False
-
-# Valida que a data ou a hora contém apenas dígitos, desprezando espaços
-# extras no início e no fim.
 def soDigitos(numero) :
   if type(numero) != str :
     return False
