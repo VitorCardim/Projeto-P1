@@ -39,17 +39,11 @@ def printCores(texto, cor) :
 #
 # Qualquer elemento da tupla que contenha um string vazio ('') não
 # deve ser levado em consideração. 
-def adicionar(descricao, extras):
-
-  # não é possível adicionar uma atividade que não possui descrição. 
+def adicionar(descricao, extras):  
   if descricao  == '' :
     return False
-  
-
-  ################ COMPLETAR
-
-
-  # Escreve no TODO_FILE. 
+  else:
+    novaAtividade = descricao + ' ' + extras  
   try: 
     fp = open(TODO_FILE, 'a')
     fp.write(novaAtividade + "\n")
@@ -58,7 +52,6 @@ def adicionar(descricao, extras):
     print("Não foi possível escrever para o arquivo " + TODO_FILE)
     print(err)
     return False
-
   return True
 
 
