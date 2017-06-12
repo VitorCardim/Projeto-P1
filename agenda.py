@@ -104,22 +104,6 @@ def soDigitos(numero) :
     if x < '0' or x > '9' :
       return False
   return True
-
-
-# Dadas as linhas de texto obtidas a partir do arquivo texto todo.txt, devolve
-# uma lista de tuplas contendo os pedaços de cada linha, conforme o seguinte
-# formato:
-#
-# (descrição, prioridade, (data, hora, contexto, projeto))
-#
-# É importante lembrar que linhas do arquivo todo.txt devem estar organizadas de acordo com o
-# seguinte formato:
-#
-# DDMMAAAA HHMM (P) DESC @CONTEXT +PROJ
-#
-# Todos os itens menos DESC são opcionais. Se qualquer um deles estiver fora do formato, por exemplo,
-# data que não tem todos os componentes ou prioridade com mais de um caractere (além dos parênteses),
-# tudo que vier depois será considerado parte da descrição.  
 def organizar(linhas):
   itens = []
 
@@ -131,20 +115,23 @@ def organizar(linhas):
     contexto = ''
     projeto = ''
   
-    l = l.strip() # remove espaços em branco e quebras de linha do começo e do fim
-    tokens = l.split() # quebra o string em palavras
-
-    # Processa os tokens um a um, verificando se são as partes da atividade.
-    # Por exemplo, se o primeiro token é uma data válida, deve ser guardado
-    # na variável data e posteriormente removido a lista de tokens. Feito isso,
-    # é só repetir o processo verificando se o primeiro token é uma hora. Depois,
-    # faz-se o mesmo para prioridade. Neste ponto, verifica-se os últimos tokens
-    # para saber se são contexto e/ou projeto. Quando isso terminar, o que sobrar
-    # corresponde à descrição. É só transformar a lista de tokens em um string e
-    # construir a tupla com as informações disponíveis. 
-
-    ################ COMPLETAR
-
+    l = l.strip() 
+    tokens = l.split()
+    i = 0
+    while i < len(tokens):
+      if DataValida(tokens[i]) == True:
+        data = tokens[i]
+      elif contextoValido(tokens[i]) == True:
+        contexto = tokens[i]
+      elif projetoValido(tokens[i]) == True:
+        projeto = tokens[i]
+      elif prioridadeValida(tokens[i]) == True:
+        pri = tokens[i]
+      elif horaValida(tokens[i]) == True:
+        hora = tokens[i]
+      else:
+        desc = tokens[i]
+      i = i + 1
     itens.append((desc, (data, hora, pri, contexto, projeto)))
 
   return itens
