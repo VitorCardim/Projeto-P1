@@ -90,20 +90,27 @@ def horaValida(horaMin) :
     if (hora < 00) or (hora > 24) or (minu > 59) or (mini < 00):
       return False
     return True
-# Valida datas. Verificar inclusive se não estamos tentando
-# colocar 31 dias em fevereiro. Não precisamos nos certificar, porém,
-# de que um ano é bissexto. 
 def dataValida(data) :
-
-  ################ COMPLETAR
-
+  if len(data) = 8 and soDigitos(data):
+    dia = int(data[0:2])
+    mes = int(data[3:4])
+    mes30 = [4,6,8,10,11]
+    mes31 =[1,3,5,7,9,12]
+    if mes <= 12 and mes => 01:
+      if dia == 2 and mes == 28:
+        return True
+      if dia == 30:
+        for x in mes30:
+          if x == mes:
+            return True
+      if dia == 31:
+        for x in mes31:
+          if x == 30:
+            return True
   return False
-
-# Valida que o string do projeto está no formato correto. 
 def projetoValido(proj):
-
-  ################ COMPLETAR
-
+  if len(proj) >= 2 and proj[0:1] == '+':
+    return True
   return False
 
 # Valida que o string do contexto está no formato correto. 
