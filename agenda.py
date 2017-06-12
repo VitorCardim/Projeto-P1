@@ -43,7 +43,24 @@ def adicionar(descricao, extras):
   if descricao  == '' :
     return False
   else:
-    novaAtividade = descricao + ' ' + extras  
+      data = '' 
+      hora = ''
+      pri = ''
+      contexto = ''
+      projeto = ''
+    
+      for x in extras:
+        if dataValida(x) == True:
+           data = x
+        elif contextoValido(x) == True:
+           contexto = x
+        elif projetoValido(x) == True:
+            projeto = x
+        elif prioridadeValida(x) == True:
+           pri = x
+        elif horaValida(x) == True:
+            hora = x
+      novaAtividade = descricao+' '+ data +' '+ hora+' '+pri+' '+contexto+' '+projeto
   try: 
     fp = open(TODO_FILE, 'a')
     fp.write(novaAtividade + "\n")
@@ -56,6 +73,7 @@ def adicionar(descricao, extras):
 def prioridadeValida(pri):
   pri = pri.strip('(')
   pri = pri.strip(')')
+  pri = pri.strip()
   pri = pri.lower()
   lista = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
   for x in lista:
@@ -68,16 +86,16 @@ def horaValida(horaMin) :
   else:
     hora = int(horaMin[0:2])
     minu = int(horaMin[2:4])
-    if (hora < 00) or (hora > 24) or (minu > 59) or (mini < 00):
+    if (hora < 00) or (hora > 24) or (minu > 59) or (minu < 00):
       return False
     return True
 def dataValida(data) :
-  if len(data) = 8 and soDigitos(data):
+  if len(data) == 8 and soDigitos(data):
     dia = int(data[0:2])
     mes = int(data[3:4])
     mes30 = [4,6,8,10,11]
     mes31 =[1,3,5,7,9,12]
-    if mes <= 12 and mes => 01:
+    if mes <= 12 and mes >= 1:
       if dia == 2 and mes == 28:
         return True
       if dia == 30:
@@ -94,7 +112,7 @@ def projetoValido(proj):
     return True
   return False
 def contextoValido(cont):
-  if len(proj) >= 2 and proj[0:1] == '+':
+  if len(cont) >= 2 and cont[0:1] == '+':
     return True
   return False
 def soDigitos(numero) :
@@ -119,7 +137,7 @@ def organizar(linhas):
     tokens = l.split()
     while tokens != []:
      for x in tokens:
-       if DataValida(x) == True:
+       if dataValida(x) == True:
          data = tokens.pop(0)
        elif contextoValido(x) == True:
          contexto = tokens.pop(0)
