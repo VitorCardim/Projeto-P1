@@ -63,9 +63,24 @@ def prioridadeValida(pri):
       return True
   return False
 
-
-# Valida a hora. Consideramos que o dia tem 24 horas, como no Brasil, ao invés
-# de dois blocos de 12 (AM e PM), como nos EUA.
+def soDigitos(digitos):
+  lista = []
+  listan = ['0','1','2','3','4','5','6','7','8','9']
+  i = 0
+  while i < len(digitos):
+    lista.append(digitos[i])
+    i = i + 1
+  i = 0
+  contador = 0
+  while i < len(lista):
+    for x in listan:
+      if x == lista[i]:
+        contador = contador + 1
+    i = i+1
+  if len(lista)-1 == contador:
+    return True
+  else:
+    return False
 def horaValida(horaMin) :
   if len(horaMin) != 4 or not soDigitos(horaMin):
     return False
