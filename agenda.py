@@ -85,9 +85,11 @@ def horaValida(horaMin) :
   if len(horaMin) != 4 or not soDigitos(horaMin):
     return False
   else:
-    ################ COMPLETAR
+    hora = int(horaMin[0:2])
+    minu = int(horaMin[2:4])
+    if (hora < 00) or (hora > 24) or (minu > 59) or (mini < 00):
+      return False
     return True
-
 # Valida datas. Verificar inclusive se não estamos tentando
 # colocar 31 dias em fevereiro. Não precisamos nos certificar, porém,
 # de que um ano é bissexto. 
