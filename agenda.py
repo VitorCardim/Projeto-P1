@@ -52,15 +52,22 @@ def adicionar(descricao, extras):
       for x in extras:
         if dataValida(x) == True:
            data = x
+        elif horaValida(x) == True:
+            hora = x
         elif contextoValido(x) == True:
            contexto = x
         elif projetoValido(x) == True:
             projeto = x
         elif prioridadeValida(x) == True:
            pri = x
-        elif horaValida(x) == True:
-            hora = x
-      novaAtividade = descricao+' '+ data +' '+ hora+' '+pri+' '+contexto+' '+projeto
+
+      atividade = data+' '+ hora +' '+ pri +' '+descricao+' '+contexto+' '+projeto
+      atividade = atividade.split()
+      for x in atividade:
+        novaAtividade = novaAtividade +' '+ x
+      novaAtividade = novaAtividade.strip()
+      
+      
   try: 
     fp = open(TODO_FILE, 'a')
     fp.write(novaAtividade + "\n")
