@@ -174,7 +174,7 @@ def organizar(linhas):
                         desc = desc.strip()
                 else:
                     t = True
-                    while t = True:
+                    while t == True:
                         for x in tokens:
                             if x[0:1] == '+':
                                 projeto = projeto+' '+ x
@@ -190,7 +190,7 @@ def organizar(linhas):
                         desc = desc.strip()
             else:
                 t = True
-                while t = True:
+                while t == True:
                     for x in tokens:
                         if x[0:1] == '+':
                             projeto = projeto+' '+ x
@@ -208,7 +208,7 @@ def organizar(linhas):
                 
         else:
             t = True
-            while t = True:
+            while t == True:
                 for x in tokens:
                     if x[0:1] == '+':
                         projeto = projeto+' '+ x
@@ -224,7 +224,7 @@ def organizar(linhas):
                 desc = desc.strip()
         itens.append((desc, (data, hora, pri, contexto, projeto)))
 
-  return itens
+    return itens
 
 
 # Datas e horas são armazenadas nos formatos DDMMAAAA e HHMM, mas são exibidas
@@ -235,6 +235,8 @@ def organizar(linhas):
 # determinado projeto; (vi) atividades de determinado dia (data específica, hoje ou amanhã). Isso não
 # é uma das tarefas básicas do projeto, porém. 
 def listar():
+    
+    
 
   ################ COMPLETAR
   return 
