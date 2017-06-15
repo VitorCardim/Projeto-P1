@@ -236,22 +236,80 @@ def listar():
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
     fp.close()
-    return organizar(linhas)
-    
-    
-
-  ################ COMPLETAR
-  return 
+    organizar(linhas)
+    organizado = []
+    for x in itens:
+        data = ''
+        hora = ''
+        if x[1][0] != '':
+            data = x[1][0][0:2]+'/'+x[1][0][2:4]+'/'+x[1][0][4:8]
+        if x[1][1] != '':
+            hora = x[1][1][0:2]+':'+x[1][1][2:4]'
+        organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
+    return organizado
+        
 
 def ordenarPorDataHora(itens):
+    data = []
+    datahora = []
+    nodata = []
+    for x in itens:
+        if x[1][0] == '':
+            nodata.append(x)
+        else:
+            data.append(x)
+    ##continuar daqui
+    i = 0
+    while i < len(data): #bubble data
+        t = 0
+        while t < len(data) -1: 
+            if (data[t][1][0][0:2] >= data[t+1][1][0][0:2]) and (data[t][1][0][2:4] >= data[t+1][1][0][2:4]) and (data[t][1][0][4:8] >= data[t][1][0][4:8]):
+                data[t],data[t+1] = data[t+1],data[t]
+            t = t+1
+        i = i+1
+     i = 0
+    while i < len(data): #bubble hora
+        t = 0
+        while t < len(data) -1:
+            if (data[t][1][1][0:2] >= data[t+1][1][1][0:2]) and (data[t][1][1][2:4] >= data[t+1][1][1][2:4]):
+                data[t],data[t+1] = data[t+1],data[t]
+            t = t+1
+        i = i+1
+    
+        
+        
+            
+        
 
-  ################ COMPLETAR
+    
+    
+    
+    
 
   return itens
    
 def ordenarPorPrioridade(itens):
-
-  ################ COMPLETAR
+    nopri = []
+    copri = []
+    for x in itens:
+        if x[1][2] == '':
+            nopri.append(x)
+        else:
+            compri.append(x)
+    i = 0
+    while i < len(compri):
+        t = 0
+        while t < len(compri) - 1:
+            if compri[t][1][2] > compri[t+1][1][2]:
+                compri[t], compri[t+1] = compri[t+1], compri[t]
+            t = t+1
+        i = i +1
+    itens = compri+nopri
+    return itens
+    
+    
+    
+    
 
   return itens
 
