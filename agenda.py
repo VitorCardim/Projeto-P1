@@ -138,10 +138,7 @@ def verificar(lista,op1,op2): #funcao auxiliar para o organizar
         if x[0:1] == op1 or x[0:1] == op2:
             return True
     return False
-def organizar():
-    fp = open(TODO_FILE, 'r')
-    linhas = fp.readlines()
-    fp.close()
+def organizar(linhas):
     itens = []
     for l in linhas:
         data = ''
@@ -236,6 +233,10 @@ def organizar():
 # determinado projeto; (vi) atividades de determinado dia (data específica, hoje ou amanhã). Isso não
 # é uma das tarefas básicas do projeto, porém. 
 def listar():
+    fp = open(TODO_FILE, 'r')
+    linhas = fp.readlines()
+    fp.close()
+    return organizar(linhas)
     
     
 
