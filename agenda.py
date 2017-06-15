@@ -1,5 +1,4 @@
 import sys
-# teste
 TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
 
@@ -11,7 +10,6 @@ RESET = "\033[0;0m"
 BOLD    = "\033[;1m"
 REVERSE = "\033[;7m"
 YELLOW = "\033[0;33m"
-
 ADICIONAR = 'a'
 REMOVER = 'r'
 FAZER = 'f'
@@ -22,23 +20,8 @@ LISTAR = 'l'
 #
 # printCores('Oi mundo!', RED)
 # printCores('Texto amarelo e negrito', YELLOW + BOLD)
-
 def printCores(texto, cor):
     print(cor + texto + RESET)
-  
-
-# Adiciona um compromisso aa agenda. Um compromisso tem no minimo
-# uma descrição. Adicionalmente, pode ter, em caráter opcional, uma
-# data (formato DDMMAAAA), um horário (formato HHMM), uma prioridade de A a Z, 
-# um contexto onde a atividade será realizada (precedido pelo caractere
-# '@') e um projeto do qual faz parte (precedido pelo caractere '+'). Esses
-# itens opcionais são os elementos da tupla "extras", o segundo parâmetro da
-# função.
-#
-# extras ~ (data, hora, prioridade, contexto, projeto)
-#
-# Qualquer elemento da tupla que contenha um string vazio ('') não
-# deve ser levado em consideração. 
 def adicionar(descricao, extras):
     if descricao  == '':
          return False
@@ -62,15 +45,12 @@ def adicionar(descricao, extras):
                 projeto = projeto.strip()
             elif prioridadeValida(x) == True:
                 pri = x
-    
     atividade = data+' '+hora+' '+pri+' '+descricao+' '+contexto+' '+projeto
     atividade = atividade.split()
     novaAtividade = ''
     for x in atividade:
         novaAtividade = novaAtividade+' '+x
         novaAtividade = novaAtividade.strip()
-      
-      
     try:
         fp = open(TODO_FILE, 'a')
         fp.write(novaAtividade + "\n")
@@ -132,8 +112,7 @@ def soDigitos(numero):
         if x < '0' or x > '9':
             return False
     return True
-
-def verificar(lista,op1,op2): #funcao auxiliar para o organizar
+def verificar(lista,op1,op2): #funcao auxiliar para o organizar ( verifica se ainda existe algum contexto ou projeto
     for x in lista:
         if x[0:1] == op1 or x[0:1] == op2:
             return True
@@ -166,7 +145,7 @@ def organizar(linhas):
                                 contexto = contexto +' '+ x
                                 tokens.remove(x)
                                 contexto = contexto.strip()
-                        t = verificar(tokens,'+','@')
+                        t = verificar(tokens,'+','@')#necessario pois quando se usa remove ou pop, se pula alguns elementos na verificação
                     for x in tokens:
                         desc = desc+' '+x
                         desc = desc.strip()
@@ -202,8 +181,6 @@ def organizar(linhas):
                 for x in tokens:
                     desc = desc+' '+x
                     desc = desc.strip()
-                
-                
         else:
             t = True
             while t == True:
@@ -221,7 +198,6 @@ def organizar(linhas):
                 desc = desc+' '+x
                 desc = desc.strip()
         itens.append((desc, (data, hora, pri, contexto, projeto)))
-
     return itens
 
 
@@ -237,6 +213,8 @@ def listar():
     linhas = fp.readlines()
     fp.close()
     organizar(linhas)
+    ordenarPorDataHora(itens)
+    ordenarPorPrioridade(itens)
     organizado = []
     for x in itens:
         data = ''
@@ -247,47 +225,56 @@ def listar():
             hora = x[1][1][0:2]+':'+x[1][1][2:4]'
         organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
     return organizado
-        
-
 def ordenarPorDataHora(itens):
     data = []
-    datahora = []
     nodata = []
     for x in itens:
         if x[1][0] == '':
             nodata.append(x)
         else:
             data.append(x)
-    ##continuar daqui
     i = 0
-    while i < len(data): #bubble data
+    while i < len(data): #bubble ano
         t = 0
         while t < len(data) -1: 
-            if (data[t][1][0][0:2] >= data[t+1][1][0][0:2]) and (data[t][1][0][2:4] >= data[t+1][1][0][2:4]) and (data[t][1][0][4:8] >= data[t][1][0][4:8]):
+            if (data[t][1][0][4:8] >= data[t+1][1][0][4:8]):
                 data[t],data[t+1] = data[t+1],data[t]
             t = t+1
         i = i+1
-     i = 0
-    while i < len(data): #bubble hora
+    i = 0
+    while i < len(data): #bubble mes no ano
         t = 0
         while t < len(data) -1:
-            if (data[t][1][1][0:2] >= data[t+1][1][1][0:2]) and (data[t][1][1][2:4] >= data[t+1][1][1][2:4]):
+            if (data[t][1][0][4:8] == data[t+1][1][0][4:8]) and (data[t][1][0][2:4] >= data[t+1][1][0][2:4]):
                 data[t],data[t+1] = data[t+1],data[t]
             t = t+1
         i = i+1
-    
-        
-        
-            
-        
-
-    
-    
-    
-    
-
-  return itens
-   
+    i = 0
+    while i < len(data): #bubble dia no mes
+        t = 0
+        while t < len(data) -1:
+            if (data[t][1][0][4:8] == data[t+1][1][0][4:8]) and (data[t][1][0][2:4] == data[t+1][1][0][2:4]) and (data[t][1][0][0:2] >= data[t+1][1][0][0:2]) :
+                data[t],data[t+1] = data[t+1],data[t]
+            t = t+1
+        i = i+1
+    i = 0
+    while i < len(data): #bubble hora no dia
+        t = 0
+        while t < len(data) -1:
+            if (data[t][1][0][4:8] == data[t+1][1][0][4:8]) and (data[t][1][0][2:4] == data[t+1][1][0][2:4]) and (data[t][1][0][0:2] == data[t+1][1][0][0:2]) and (data[t][1][1][0:2] >= data[t+1][1][1][0:2]):
+                data[t],data[t+1] = data[t+1],data[t]
+            t = t+1
+        i = i+1
+    i = 0
+    while i < len(data): #bubble minuto na hora
+        t = 0
+        while t < len(data) -1:
+            if (data[t][1][0][4:8] == data[t+1][1][0][4:8]) and (data[t][1][0][2:4] == data[t+1][1][0][2:4]) and (data[t][1][0][0:2] == data[t+1][1][0][0:2]) and (data[t][1][1][0:2] == data[t+1][1][1][0:2]) and (data[t][1][1][2:4] >= data[t+1][1][1][2:4]):
+                data[t],data[t+1] = data[t+1],data[t]
+            t = t+1
+        i = i+1
+    itens = data+nodata
+    return itens
 def ordenarPorPrioridade(itens):
     nopri = []
     copri = []
@@ -306,13 +293,6 @@ def ordenarPorPrioridade(itens):
         i = i +1
     itens = compri+nopri
     return itens
-    
-    
-    
-    
-
-  return itens
-
 def fazer(num):
 
   ################ COMPLETAR
