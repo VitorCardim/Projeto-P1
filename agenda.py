@@ -138,12 +138,11 @@ def verificar(lista,op1,op2): #funcao auxiliar para o organizar
         if x[0:1] == op1 or x[0:1] == op2:
             return True
     return False
-def organizar(linhas):
+def organizar():
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
     fp.close()
     itens = []
-    resto
     for l in linhas:
         data = ''
         hora = ''
