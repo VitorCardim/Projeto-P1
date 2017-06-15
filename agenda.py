@@ -65,7 +65,7 @@ def adicionar(descricao, extras):
       atividade = atividade.split()
       for x in atividade:
         novaAtividade = novaAtividade +' '+ x
-      novaAtividade = novaAtividade.strip()
+        novaAtividade = novaAtividade.strip()
       
       
   try: 
