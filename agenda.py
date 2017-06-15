@@ -23,8 +23,8 @@ LISTAR = 'l'
 # printCores('Oi mundo!', RED)
 # printCores('Texto amarelo e negrito', YELLOW + BOLD)
 
-def printCores(texto, cor) :
-  print(cor + texto + RESET)
+def printCores(texto, cor):
+    print(cor + texto + RESET)
   
 
 # Adiciona um compromisso aa agenda. Um compromisso tem no minimo
@@ -39,124 +39,190 @@ def printCores(texto, cor) :
 #
 # Qualquer elemento da tupla que contenha um string vazio ('') não
 # deve ser levado em consideração. 
-def adicionar(descricao, extras):  
-  if descricao  == '' :
-    return False
-  else:
-      data = '' 
-      hora = ''
-      pri = ''
-      contexto = ''
-      projeto = ''
+def adicionar(descricao, extras):
+    if descricao  == '':
+         return False
+    else:
+        data = ''
+        hora = ''
+        pri = ''
+        contexto = ''
+        projeto = ''
+        for x in extras:
+            if dataValida(x) == True:
+                data = x
+            elif horaValida(x) == True:
+                hora = x
+            elif contextoValido(x) == True:
+                contexto = contexto+' '+x
+                contexto = contexto.strip()
+            elif projetoValido(x) == True:
+                projeto = projeto+' '+x
+                projeto = projeto.strip()
+            elif prioridadeValida(x) == True:
+                pri = x
     
-      for x in extras:
-        if dataValida(x) == True:
-           data = x
-        elif horaValida(x) == True:
-            hora = x
-        elif contextoValido(x) == True:
-           contexto = x
-        elif projetoValido(x) == True:
-            projeto = x
-        elif prioridadeValida(x) == True:
-           pri = x
-
-      atividade = data+' '+ hora +' '+ pri +' '+descricao+' '+contexto+' '+projeto
-      atividade = atividade.split()
-      for x in atividade:
-        novaAtividade = novaAtividade +' '+ x
+    atividade = data+' '+hora+' '+pri+' '+descricao+' '+contexto+' '+projeto
+    atividade = atividade.split()
+    for x in atividade:
+        novaAtividade = novaAtividade+' '+x
         novaAtividade = novaAtividade.strip()
       
       
-  try: 
-    fp = open(TODO_FILE, 'a')
-    fp.write(novaAtividade + "\n")
-    fp.close()
-  except IOError as err:
-    print("Não foi possível escrever para o arquivo " + TODO_FILE)
-    print(err)
-    return False
-  return True
+    try:
+        fp = open(TODO_FILE, 'a')
+        fp.write(novaAtividade + "\n")
+        fp.close()
+    except IOError as err:
+        print("Não foi possível escrever para o arquivo " + TODO_FILE)
+        print(err)
+        return False
+    return True
 def prioridadeValida(pri):
-  pri = pri.strip('(')
-  pri = pri.strip(')')
-  pri = pri.strip()
-  pri = pri.lower()
-  lista = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-  for x in lista:
-    if x == pri:
-      return True
-  return False
-def horaValida(horaMin) :
-  if len(horaMin) != 4 or not soDigitos(horaMin):
+    pri = pri.strip('(')
+    pri = pri.strip(')')
+    pri = pri.strip()
+    pri = pri.lower()
+    lista = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    for x in lista:
+        if x == pri:
+          return True
     return False
-  else:
-    hora = int(horaMin[0:2])
-    minu = int(horaMin[2:4])
-    if (hora < 00) or (hora > 24) or (minu > 59) or (minu < 00):
-      return False
+def horaValida(horaMin):
+    if len(horaMin) != 4 or not soDigitos(horaMin):
+        return False
+    else:
+        hora = int(horaMin[0:2])
+        minu = int(horaMin[2:4])
+        if (hora < 00) or (hora > 24) or (minu > 59) or (minu < 00):
+            return False
     return True
-def dataValida(data) :
-  if len(data) == 8 and soDigitos(data):
-    dia = int(data[0:2])
-    mes = int(data[3:4])
-    mes30 = [4,6,8,10,11]
-    mes31 =[1,3,5,7,9,12]
-    if mes <= 12 and mes >= 1:
-      if dia <= 29:
-        return True
-      elif dia == 30:
-        for x in mes30:
-          if x == mes:
-            return True
-      elif dia == 31:
-        for x in mes31:
-          if x == 30:
-            return True
-  return False
+def dataValida(data):
+    if len(data) == 8 and soDigitos(data):
+        dia = int(data[0:2])
+        mes = int(data[3:4])
+        mes30 = [4,6,8,10,11]
+        mes31 =[1,3,5,7,9,12]
+        if mes <= 12 and mes >= 1:
+            if dia <= 29:
+                return True
+        elif dia == 30:
+            for x in mes30:
+                if x == mes:
+                    return True
+        elif dia == 31:
+            for x in mes31:
+                if x == 30:
+                    return True
+    return False
 def projetoValido(proj):
-  if len(proj) >= 2 and proj[0:1] == '+':
-    return True
-  return False
-def contextoValido(cont):
-  if len(cont) >= 2 and cont[0:1] == '@':
-    return True
-  return False
-def soDigitos(numero) :
-  if type(numero) != str :
+    if len(proj) >= 2 and proj[0:1] == '+':
+        return True
     return False
-  for x in numero :
-    if x < '0' or x > '9' :
-      return False
-  return True
-def organizar(linhas):
-  itens = []
+def contextoValido(cont):
+    if len(cont) >= 2 and cont[0:1] == '@':
+        return True
+    return False
+def soDigitos(numero):
+    if type(numero) != str:
+        return False
+    for x in numero:
+        if x < '0' or x > '9':
+            return False
+    return True
 
-  for l in linhas:
-    data = '' 
-    hora = ''
-    pri = ''
-    desc = ''
-    contexto = ''
-    projeto = ''
-  
-    l = l.strip() 
-    tokens = l.split()
-    while tokens != []:
-     for x in tokens:
-       if dataValida(x) == True:
-         data = tokens.pop(0)
-       elif contextoValido(x) == True:
-         contexto = tokens.pop(0)
-       elif projetoValido(x) == True:
-         projeto = tokens.pop(0)
-       elif prioridadeValida(x) == True:
-         pri = tokens.pop(0)
-       elif horaValida(x) == True:
-         hora = tokens.pop(0)
-       else:
-         desc = desc + tokens.pop(0) + ' '
-    itens.append((desc, (data, hora, pri, contexto, projeto)))
+def verificar(lista,op1,op2): #funcao auxiliar para o organizar
+    for x in lista:
+        if x[0:1] == op1 or x[0:1] == op2:
+            return True
+    return False
+def organizar(linhas):
+    fp = open(TODO_FILE, 'r')
+    linhas = fp.readlines()
+    fp.close()
+    itens = []
+    resto
+    for l in linhas:
+        data = ''
+        hora = ''
+        pri = ''
+        desc = ''
+        contexto = ''
+        projeto = ''
+        l = l.strip()
+        tokens = l.split()
+        if dataValida(tokens[0]) == True:
+            data = tokens.pop(0)
+            if horaValida(tokens[0]) == True:
+                hora = tokens.pop(0)
+                if prioridadeValida(tokens[0]) == True:
+                    pri = tokens.pop(0)
+                    t = True
+                    while t == True:                    
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
+                else:
+                    t = True
+                    while t = True:
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
+            else:
+                t = True
+                while t = True:
+                    for x in tokens:
+                        if x[0:1] == '+':
+                            projeto = projeto+' '+ x
+                            tokens.remove(x)
+                            projeto = projeto.strip()
+                        if x[0:1] == '@':
+                            contexto = contexto +' '+ x
+                            tokens.remove(x)
+                            contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')
+                for x in tokens:
+                    desc = desc+' '+x
+                    desc = desc.strip()
+                
+                
+        else:
+            t = True
+            while t = True:
+                for x in tokens:
+                    if x[0:1] == '+':
+                        projeto = projeto+' '+ x
+                        tokens.remove(x)
+                        projeto = projeto.strip()
+                    if x[0:1] == '@':
+                        contexto = contexto +' '+ x
+                        tokens.remove(x)
+                        contexto = contexto.strip()
+                    t = verificar(tokens,'+','@')
+            for x in tokens:
+                desc = desc+' '+x
+                desc = desc.strip()
+        itens.append((desc, (data, hora, pri, contexto, projeto)))
 
   return itens
 
