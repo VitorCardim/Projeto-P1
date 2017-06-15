@@ -48,6 +48,7 @@ def adicionar(descricao, extras):
         pri = ''
         contexto = ''
         projeto = ''
+        extras = extras.split()
         for x in extras:
             if dataValida(x) == True:
                 data = x
@@ -64,6 +65,7 @@ def adicionar(descricao, extras):
     
     atividade = data+' '+hora+' '+pri+' '+descricao+' '+contexto+' '+projeto
     atividade = atividade.split()
+    novaAtividade = ''
     for x in atividade:
         novaAtividade = novaAtividade+' '+x
         novaAtividade = novaAtividade.strip()
