@@ -344,7 +344,7 @@ def listar(criterio):
         if x[1][0] != '':
             data = x[1][0][0:2]+'/'+x[1][0][2:4]+'/'+x[1][0][4:8]
         if x[1][1] != '':
-            hora = x[1][1][0:2]+':'+x[1][1][2:4]
+            hora = x[1][1][0:2]+'h'+x[1][1][2:4]+'m'
         organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
     for x in organizado:
         t = ''
@@ -372,10 +372,16 @@ def listar(criterio):
         return organizadocornum
     else:
         cri = []
-        for x in organizadocor:
-            for k in x[1]:
-                if k[0] == criterio:
-                    cri.append(x)
+        if criterio == '+' or criterio == '@':
+            for x in organizadocor:
+                for k in x[1]:
+                    if k[0] == criterio:
+                        cri.append(x)
+        else:
+            for x in organizadocor:
+                for k in x[1]:
+                    if k == criterio:
+                        cri.append(x)
         i = 0
         while i < len(cri):
             add = [i+1]+[cri[i]]
@@ -467,7 +473,7 @@ def ordenarPorPrioridade(itens):
     itens = compri+nopri
     return itens
 def fazer(num):
-    t = listar(criterio)
+    t = listar('')
     procurar = ''
     for x in t:
         if num == x[0]:
@@ -486,7 +492,7 @@ def fazer(num):
     return
 
 def remover(num):
-    t = listar(criterio)
+    t = listar('')
     procurar = ''
     try:
         if len(t)+1 <= num:
@@ -513,7 +519,7 @@ def remover(num):
 # num é o número da atividade cuja prioridade se planeja modificar, conforme
 # exibido pelo comando 'l'.
 def priorizar(num, prioridade):
-    t = listar(criterio)
+    t = listar('')
     procurar = ''
     for x in t:
         if num == x[0]:
