@@ -250,9 +250,9 @@ def listar(criterio):
         cri = []
         for x in organizadocor:
             t = x[1].split()
-                for k in t:
-                    if k == criterio:
-                        cri.append(x)
+            for k in t:
+                if k == criterio:
+                    cri.append(x)
         i = 0
         while i < len(cri):
             add = [i+1]+[cri[i]]
