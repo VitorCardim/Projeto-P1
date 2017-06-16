@@ -224,16 +224,16 @@ def listar(criterio):
         organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
     for x in organizado:
         t = ''
-        if x[1][2] == 'a' or x[1][2] = 'A':
+        if x[1][2] == 'a' or x[1][2] == 'A':
             t = printCores(x, BLUE + BOLD)
             organizadocor.append(t)
-        elif x[1][2] == 'b' or x[1][2] = 'B':
+        elif x[1][2] == 'b' or x[1][2] == 'B':
             t = printCores(x, RED)
             organizadocor.append(t)
-        elif x[1][2] == 'c' o rx[1][2] = 'C':
+        elif x[1][2] == 'c' o rx[1][2] == 'C':
             t = printCores(x, YELLOW)
             organizadocor.append(t)
-        elif x[1][2] == 'd' or x[1][2] = 'D':
+        elif x[1][2] == 'd' or x[1][2] == 'D':
             t = printCores(x, GREEN)
             organizadocor.append(t)
         else:
