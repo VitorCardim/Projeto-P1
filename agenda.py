@@ -2,7 +2,7 @@ import sys
 TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
 
-RED   = "\033[1;31m"  
+RED   = "\033[1;31m"
 BLUE  = "\033[1;34m"
 CYAN  = "\033[1;36m"
 GREEN = "\033[0;32m"
@@ -139,7 +139,7 @@ def organizar(linhas):
                 if prioridadeValida(tokens[0]) == True:
                     pri = tokens.pop(0)
                     t = True
-                    while t == True:                    
+                    while t == True:
                         for x in tokens:
                             if x[0:1] == '+':
                                 projeto = projeto+' '+ x
@@ -224,16 +224,16 @@ def listar(criterio):
         organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
     for x in organizado:
         t = ''
-        if x[1][2] == 'a' or 'A':
+        if x[1][2] == 'a' or x[1][2] = 'A':
             t = printCores(x, BLUE + BOLD)
             organizadocor.append(t)
-        elif x[1][2] == 'b' or 'B':
+        elif x[1][2] == 'b' or x[1][2] = 'B':
             t = printCores(x, RED)
             organizadocor.append(t)
-        elif x[1][2] == 'c' or 'C':
+        elif x[1][2] == 'c' o rx[1][2] = 'C':
             t = printCores(x, YELLOW)
             organizadocor.append(t)
-        elif x[1][2] == 'd' or 'D':
+        elif x[1][2] == 'd' or x[1][2] = 'D':
             t = printCores(x, GREEN)
             organizadocor.append(t)
         else:
@@ -269,7 +269,7 @@ def ordenarPorDataHora(itens):
     i = 0
     while i < len(data): #bubble ano
         t = 0
-        while t < len(data) -1: 
+        while t < len(data) -1:
             if (data[t][1][0][4:8] >= data[t+1][1][0][4:8]):
                 data[t],data[t+1] = data[t+1],data[t]
             t = t+1
@@ -343,7 +343,7 @@ def fazer(num):
     fp = open(ARCHIVE_FILE, 'r')
     fp.write(procurar)
     fp.close()
-    return 
+    return
 
 def remover(num):
     t = listar(criterio)
@@ -366,12 +366,12 @@ def remover(num):
         print("Não foi possível remover o arquivo, numero invalido")
         print(err)
         return False
-        
-    
+
+
 
 # prioridade é uma letra entre A a Z, onde A é a mais alta e Z a mais baixa.
 # num é o número da atividade cuja prioridade se planeja modificar, conforme
-# exibido pelo comando 'l'. 
+# exibido pelo comando 'l'.
 def priorizar(num, prioridade):
     t = listar(criterio)
     procurar = ''
@@ -388,7 +388,7 @@ def priorizar(num, prioridade):
         else:
             fp.write((procurar[0], (procurar[1][0], procurar[1][1], prioridade, procurar[1][3], procurar[1][4])))
     fp.close()
-    return 
+    return
 
 
 
@@ -397,7 +397,7 @@ def priorizar(num, prioridade):
 # isso significa que a função adicionar() deve ser invocada para registrar a nova atividade.
 # O bloco principal fica responsável também por tirar espaços em branco no início e fim dos strings
 # usando o método strip(). Além disso, realiza a validação de horas, datas, prioridades, contextos e
-# projetos. 
+# projetos.
 def processarComandos(comandos):
   if comandos[1] == ADICIONAR:
     comandos.pop(0) # remove 'agenda.py'
@@ -406,28 +406,28 @@ def processarComandos(comandos):
     # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
     adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
   elif comandos[1] == LISTAR:
-    return    
+    return
     ################ COMPLETAR
 
   elif comandos[1] == REMOVER:
-    return    
+    return
 
-    ################ COMPLETAR    
+    ################ COMPLETAR
 
   elif comandos[1] == FAZER:
-    return    
+    return
 
     ################ COMPLETAR
 
   elif comandos[1] == PRIORIZAR:
-    return    
+    return
 
     ################ COMPLETAR
 
   else :
     print("Comando inválido.")
-    
-  
+
+
 # sys.argv é uma lista de strings onde o primeiro elemento é o nome do programa
 # invocado a partir da linha de comando e os elementos restantes são tudo que
 # foi fornecido em sequência. Por exemplo, se o programa foi invocado como
