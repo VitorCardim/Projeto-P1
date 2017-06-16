@@ -82,7 +82,7 @@ def horaValida(horaMin):
 def dataValida(data):
     if len(data) == 8 and soDigitos(data):
         dia = int(data[0:2])
-        mes = int(data[3:4])
+        mes = int(data[2:4])
         mes30 = [4,6,8,10,11]
         mes31 =[1,3,5,7,9,12]
         if mes <= 12 and mes >= 1:
