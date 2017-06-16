@@ -242,19 +242,14 @@ def listar(criterio):
         i = 0
         add = ''
         while i < len(organizadocor):
-            add = ['i+1']+[lista[i]]
+            add = [i+1]+[lista[i]]
             organizadocornum.append(add)
             i = i+1
         return organizadocornum
     else:
         cri = []
-        if criterio == 'prioridade':
-            for x in organizadocor:
-                if x[1][2] != '':
-                    cri.append(x)
-        else:
-            for x in organizadocor:
-                t = x.split()
+        for x in organizadocor:
+            t = x[1].split()
                 for k in t:
                     if k == criterio:
                         cri.append(x)
