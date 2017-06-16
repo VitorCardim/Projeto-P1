@@ -230,7 +230,7 @@ def listar(criterio):
         elif x[1][2] == 'b' or x[1][2] == 'B':
             t = printCores(x, RED)
             organizadocor.append(t)
-        elif x[1][2] == 'c' or rx[1][2] == 'C':
+        elif x[1][2] == 'c' or x[1][2] == 'C':
             t = printCores(x, YELLOW)
             organizadocor.append(t)
         elif x[1][2] == 'd' or x[1][2] == 'D':
