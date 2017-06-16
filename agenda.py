@@ -86,7 +86,7 @@ def dataValida(data):
         mes30 = [4,6,8,10,11]
         mes31 =[1,3,5,7,9,12]
         if mes <= 12 and mes >= 1:
-            if dia <= 29:
+            if dia <= 29 and dia >= 1:
                 return True
         elif dia == 30:
             for x in mes30:
