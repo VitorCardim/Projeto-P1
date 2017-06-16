@@ -242,7 +242,7 @@ def listar(criterio):
         i = 0
         add = ''
         while i < len(organizadocor):
-            add = [i+1]+[lista[i]]
+            add = [i+1]+[organizadocor[i]]
             organizadocornum.append(add)
             i = i+1
         return organizadocornum
