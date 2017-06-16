@@ -1,7 +1,6 @@
 import sys
 TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
-
 RED   = "\033[1;31m"
 BLUE  = "\033[1;34m"
 CYAN  = "\033[1;36m"
@@ -15,11 +14,6 @@ REMOVER = 'r'
 FAZER = 'f'
 PRIORIZAR = 'p'
 LISTAR = 'l'
-
-# Imprime texto com cores. Por exemplo, para imprimir "Oi mundo!" em vermelho, basta usar
-#
-# printCores('Oi mundo!', RED)
-# printCores('Texto amarelo e negrito', YELLOW + BOLD)
 def printCores(texto, cor):
     print(cor + texto + RESET)
 def adicionar(descricao, extras):
@@ -451,7 +445,6 @@ def ordenarPorDataHora(itens):
                 nodata[t],nodata[t+1] = nodata[t+1],nodata[t]
             t = t+1
         i = i+1
-
     itens = data+nodata
     return itens
 def ordenarPorPrioridade(itens):
@@ -490,7 +483,6 @@ def fazer(num):
     fp.write(procurar)
     fp.close()
     return
-
 def remover(num):
     t = listar('')
     procurar = ''
@@ -503,21 +495,15 @@ def remover(num):
             analise = fp.readlines()
             fp.close()
             fp = open(TODO_FILE, 'w')
-            for x in analise:
+            for x[1] in analise:
                 if x != procurar:
-                    fp.write(x)
+                    fp.write(x[1])
             fp.close()
             return
     except IOError as err:
         print("Não foi possível remover o arquivo, numero invalido")
         print(err)
         return False
-
-
-
-# prioridade é uma letra entre A a Z, onde A é a mais alta e Z a mais baixa.
-# num é o número da atividade cuja prioridade se planeja modificar, conforme
-# exibido pelo comando 'l'.
 def priorizar(num, prioridade):
     t = listar('')
     procurar = ''
@@ -535,15 +521,6 @@ def priorizar(num, prioridade):
             fp.write((procurar[0], (procurar[1][0], procurar[1][1], prioridade, procurar[1][3], procurar[1][4])))
     fp.close()
     return
-
-
-
-# Esta função processa os comandos e informações passados através da linha de comando e identifica
-# que função do programa deve ser invocada. Por exemplo, se o comando 'adicionar' foi usado,
-# isso significa que a função adicionar() deve ser invocada para registrar a nova atividade.
-# O bloco principal fica responsável também por tirar espaços em branco no início e fim dos strings
-# usando o método strip(). Além disso, realiza a validação de horas, datas, prioridades, contextos e
-# projetos.
 def processarComandos(comandos):
   if comandos[1] == ADICIONAR:
     comandos.pop(0) # remove 'agenda.py'
@@ -552,39 +529,24 @@ def processarComandos(comandos):
     # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
     adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
   elif comandos[1] == LISTAR:
-      if len(comandos) == 2:
+      comandos.pop(0)
+      comandos.pop(0)
+      if len(comandos) == 1:
           return listar('')
-      elif len(comandos) == 3:
-          return listar(comandos[2])
-
-    ################ COMPLETAR
-
+      elif len(comandos) == 2:
+          return listar(comandos[1])
   elif comandos[1] == REMOVER:
-    return
-
-    ################ COMPLETAR
-
+      comandos.pop(0)
+      comandos.pop(0)
+      return listar(comandos[0]]
   elif comandos[1] == FAZER:
-    return
-
-    ################ COMPLETAR
-
+      comandos.pop(0)
+      comandos.pop(0)
+      return fazer(comandos[0])
   elif comandos[1] == PRIORIZAR:
-    return
-
-    ################ COMPLETAR
-
+      comandos.pop(0)
+      comandos.pop(0)
+      return priorizar(comandos[0],comandos[1])
   else :
     print("Comando inválido.")
-
-
-# sys.argv é uma lista de strings onde o primeiro elemento é o nome do programa
-# invocado a partir da linha de comando e os elementos restantes são tudo que
-# foi fornecido em sequência. Por exemplo, se o programa foi invocado como
-#
-# python3 agenda.py a Mudar de nome.
-#
-# sys.argv terá como conteúdo
-#
-# ['agenda.py', 'a', 'Mudar', 'de', 'nome']
 processarComandos(sys.argv)
