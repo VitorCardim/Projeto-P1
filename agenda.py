@@ -169,6 +169,130 @@ def organizar(linhas):
                     for x in tokens:
                         desc = desc+' '+x
                         desc = desc.strip()
+            elif prioridadeValida(tokens[0]) == True:
+                hora = ''
+                if prioridadeValida(tokens[0]) == True:
+                    pri = tokens.pop(0)
+                    t = True
+                    while t == True:
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')#necessario pois quando se usa remove ou pop, se pula alguns elementos na verificação
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
+                else:
+                    t = True
+                    while t == True:
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
+            else:
+                t = True
+                while t == True:
+                    for x in tokens:
+                        if x[0:1] == '+':
+                            projeto = projeto+' '+ x
+                            tokens.remove(x)
+                            projeto = projeto.strip()
+                        if x[0:1] == '@':
+                            contexto = contexto +' '+ x
+                            tokens.remove(x)
+                            contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')
+                for x in tokens:
+                    desc = desc+' '+x
+                    desc = desc.strip()
+        elif horaValida(tokens[0]) == True:
+            data = ''
+            if horaValida(tokens[0]) == True:
+                hora = tokens.pop(0)
+                if prioridadeValida(tokens[0]) == True:
+                    pri = tokens.pop(0)
+                    t = True
+                    while t == True:
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')#necessario pois quando se usa remove ou pop, se pula alguns elementos na verificação
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
+                else:
+                    t = True
+                    while t == True:
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
+
+            elif prioridadeValida(tokens[0]) == True:
+                hora = ''
+                if prioridadeValida(tokens[0]) == True:
+                    pri = tokens.pop(0)
+                    t = True
+                    while t == True:
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')#necessario pois quando se usa remove ou pop, se pula alguns elementos na verificação
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
+                else:
+                    t = True
+                    while t == True:
+                        for x in tokens:
+                            if x[0:1] == '+':
+                                projeto = projeto+' '+ x
+                                tokens.remove(x)
+                                projeto = projeto.strip()
+                            if x[0:1] == '@':
+                                contexto = contexto +' '+ x
+                                tokens.remove(x)
+                                contexto = contexto.strip()
+                        t = verificar(tokens,'+','@')
+                    for x in tokens:
+                        desc = desc+' '+x
+                        desc = desc.strip()
             else:
                 t = True
                 while t == True:
@@ -249,9 +373,8 @@ def listar(criterio):
     else:
         cri = []
         for x in organizadocor:
-            t = x[1].split()
-            for k in t:
-                if k == criterio:
+            for k in x[1]:
+                if k[0] == criterio:
                     cri.append(x)
         i = 0
         while i < len(cri):
@@ -306,6 +429,23 @@ def ordenarPorDataHora(itens):
                 data[t],data[t+1] = data[t+1],data[t]
             t = t+1
         i = i+1
+    i = 0
+    while i < len(nodata): #bubble hora
+        t = 0
+        while t < len(data) -1:
+            if nodata[t][1][1][0:2] >= nodata[t+1][1][1][0:2]:
+                nodata[t],nodata[t+1] = nodata[t+1],nodata[t]
+            t = t+1
+        i = i+1
+    i = 0
+    while i < len(data): #bubble minuto na hora
+        t = 0
+        while t < len(data) -1:
+            if (nodata[t][1][1][0:2] == nodata[t+1][1][1][0:2]) and (nodata[t][1][1][2:4] >= nodata[t+1][1][1][2:4]):
+                nodata[t],nodata[t+1] = nodata[t+1],nodata[t]
+            t = t+1
+        i = i+1
+
     itens = data+nodata
     return itens
 def ordenarPorPrioridade(itens):
@@ -406,7 +546,11 @@ def processarComandos(comandos):
     # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
     adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
   elif comandos[1] == LISTAR:
-    return
+      if len(comandos) == 2:
+          return listar('')
+      elif len(comandos) == 3:
+          return listar(comandos[2])
+
     ################ COMPLETAR
 
   elif comandos[1] == REMOVER:
