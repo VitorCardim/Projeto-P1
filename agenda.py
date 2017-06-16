@@ -76,7 +76,7 @@ def horaValida(horaMin):
     else:
         hora = int(horaMin[0:2])
         minu = int(horaMin[2:4])
-        if (hora < 00) or (hora > 24) or (minu > 59) or (minu < 00):
+        if (hora < 00) or (hora > 23) or (minu > 59) or (minu < 00):
             return False
     return True
 def dataValida(data):
