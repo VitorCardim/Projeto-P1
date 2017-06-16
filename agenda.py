@@ -44,7 +44,7 @@ def adicionar(descricao, extras):
                 projeto = projeto+' '+x
                 projeto = projeto.strip()
             elif prioridadeValida(x) == True:
-                pri = x
+                pri = x.upper()
     atividade = data+' '+hora+' '+pri+' '+descricao+' '+contexto+' '+projeto
     atividade = atividade.split()
     novaAtividade = ''
@@ -197,18 +197,10 @@ def organizar(linhas):
             for x in tokens:
                 desc = desc+' '+x
                 desc = desc.strip()
+        pri = pri.upper()
         itens.append((desc, (data, hora, pri, contexto, projeto)))
     return itens
-
-
-# Datas e horas são armazenadas nos formatos DDMMAAAA e HHMM, mas são exibidas
-# como se espera (com os separadores apropridados). 
-#
-# Uma extensão possível é listar com base em diversos critérios: (i) atividades com certa prioridade;
-# (ii) atividades a ser realizadas em certo contexto; (iii) atividades associadas com
-# determinado projeto; (vi) atividades de determinado dia (data específica, hoje ou amanhã). Isso não
-# é uma das tarefas básicas do projeto, porém. 
-def listar():
+def listar(criterio):
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
     fp.close()
@@ -216,15 +208,57 @@ def listar():
     ordenarPorDataHora(itens)
     ordenarPorPrioridade(itens)
     organizado = []
+    organizadocor = []
+    organizadocornum = []
     for x in itens:
         data = ''
         hora = ''
         if x[1][0] != '':
             data = x[1][0][0:2]+'/'+x[1][0][2:4]+'/'+x[1][0][4:8]
         if x[1][1] != '':
-            hora = x[1][1][0:2]+':'+x[1][1][2:4]'
+            hora = x[1][1][0:2]+':'+x[1][1][2:4]
         organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
-    return organizado
+    for x in organizado:
+        t = ''
+        if x[1][2][1] == 'a' or 'A':
+            t = printCores(x, BLUE + BOLD)
+            organizadocor.append(t)
+        elif x[1][2][1] == 'b' or 'B':
+            t = printCores(x, RED)
+            organizadocor.append(t)
+        elif x[1][2][1] == 'c' or 'C':
+            t = printCores(x, YELLOW)
+            organizadocor.append(t)
+        elif x[1][2][1] == 'd' or 'D':
+            t = printCores(x, GREEN)
+            organizadocor.append(t)
+        else:
+            organizadocor.append(x)
+    if criterio == '':
+        i = 0
+        add = ''
+        while i < len(organizadocor):
+            add = ['i+1']+[lista[i]]
+            organizadocornum.append(add)
+            i = i+1
+        return organizadocornum
+    else:
+        cri = []
+        if criterio == 'prioridade':
+            for x in organizadocor:
+                if x[1][2] != '':
+                    cri.append(x)
+        else:
+            for x in organizadocor:
+                t = x.split()
+                for k in t:
+                    if k == criterio:
+                        cri.append(x)
+        i = 0
+        while i < len(cri):
+            add = [i+1]+[cri[i]]
+            organizadocornum.append(add)
+        return organizadocornum
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
@@ -294,25 +328,68 @@ def ordenarPorPrioridade(itens):
     itens = compri+nopri
     return itens
 def fazer(num):
+    t = listar(criterio)
+    procurar = ''
+    for x in t:
+        if num == x[0]:
+            procurar = x[1]
+    fp = open(TODO_FILE, 'r')
+    analise = fp.readlines()
+    fp.close()
+    fp = open(TODO_FILE, 'w')
+    for x in analise:
+        if x != procurar:
+            fp.write(x)
+    fp.close()
+    fp = open(ARCHIVE_FILE, 'r')
+    fp.write(procurar)
+    fp.close()
+    return 
 
-  ################ COMPLETAR
-
-  return 
-
-def remover():
-
-  ################ COMPLETAR
-
-  return
+def remover(num):
+    t = listar(criterio)
+    procurar = ''
+    try:
+        if len(t)+1 <= num:
+            for x in t:
+                if num == x[0]:
+                    procurar = x[1]
+            fp = open(TODO_FILE, 'r')
+            analise = fp.readlines()
+            fp.close()
+            fp = open(TODO_FILE, 'w')
+            for x in analise:
+                if x != procurar:
+                    fp.write(x)
+            fp.close()
+            return
+    except IOError as err:
+        print("Não foi possível remover o arquivo, numero invalido")
+        print(err)
+        return False
+        
+    
 
 # prioridade é uma letra entre A a Z, onde A é a mais alta e Z a mais baixa.
 # num é o número da atividade cuja prioridade se planeja modificar, conforme
 # exibido pelo comando 'l'. 
 def priorizar(num, prioridade):
-
-  ################ COMPLETAR
-
-  return 
+    t = listar(criterio)
+    procurar = ''
+    for x in t:
+        if num == x[0]:
+            procurar = x[1]
+    fp = open(TODO_FILE, 'r')
+    analise = fp.readlines()
+    fp.close()
+    fp = open(TODO_FILE, 'w')
+    for x in analise:
+        if x != procurar:
+            fp.write(x)
+        else:
+            fp.write((procurar[0], (procurar[1][0], procurar[1][1], prioridade, procurar[1][3], procurar[1][4])))
+    fp.close()
+    return 
 
 
 
@@ -322,7 +399,7 @@ def priorizar(num, prioridade):
 # O bloco principal fica responsável também por tirar espaços em branco no início e fim dos strings
 # usando o método strip(). Além disso, realiza a validação de horas, datas, prioridades, contextos e
 # projetos. 
-def processarComandos(comandos) :
+def processarComandos(comandos):
   if comandos[1] == ADICIONAR:
     comandos.pop(0) # remove 'agenda.py'
     comandos.pop(0) # remove 'adicionar'
