@@ -117,7 +117,11 @@ def verificar(lista,op1,op2): #funcao auxiliar para o organizar ( verifica se ai
         if x[0:1] == op1 or x[0:1] == op2:
             return True
     return False
+linhas = ''
 def organizar(linhas):
+    fp = open(TODO_FILE, 'r')
+    linhas = fp.readlines()
+    fp.close()
     itens = []
     for l in linhas:
         data = ''
@@ -204,9 +208,9 @@ def listar(criterio):
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
     fp.close()
-    organizar(linhas)
-    ordenarPorDataHora(itens)
-    ordenarPorPrioridade(itens)
+    itens = organizar(linhas)
+    itens = ordenarPorDataHora(itens)
+    itens = ordenarPorPrioridade(itens)
     organizado = []
     organizadocor = []
     organizadocornum = []
