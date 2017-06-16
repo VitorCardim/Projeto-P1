@@ -311,7 +311,7 @@ def ordenarPorDataHora(itens):
     return itens
 def ordenarPorPrioridade(itens):
     nopri = []
-    copri = []
+    compri = []
     for x in itens:
         if x[1][2] == '':
             nopri.append(x)
