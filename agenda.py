@@ -250,7 +250,7 @@ def listar(criterio):
         if criterio == '+' or criterio == '@':
             for x in organizado:
                 for k in x[1]:
-                    if k[0] == criterio:
+                    if k == criterio:
                         cri.append(x)
         else:
             for x in organizadonum:
@@ -274,7 +274,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
+        return printarcom(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
