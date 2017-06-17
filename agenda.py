@@ -176,14 +176,18 @@ def organizar(linhas):
         pri = pri.upper()
         itens.append((desc, (data, hora, pri, contexto, projeto)))
     return itens
-def correcu(lista,corr): #colocando cor recursivamente
+def cor(lista,corr): #colocando cor (arrumar isso)
+    retorno = []
     if lista == []:
         return
     else:
-        texto = lista.pop(0)
         cor = corr
-        t = [texto[0],(printCores(texto[1][0], cor),(printCores(texto[1][1][0], cor)), (printCores(texto[1][1][1], cor)), (printCores(texto[1][1][2], cor)), (printCores(texto[1][1][3], cor)), (printCores(texto[1][1][4], cor)))]
-        return t + [correcu(lista,corr)]
+        retorno.append(printCores(str(lista[1][0]), cor))
+        for x in lista[1][1]:
+            x = printCores(str(x),cor)
+            retorno.append(x)
+        retorno = [lista[0],(retorno[0],(retorno[1],retorno[2],retorno[3],retorno[4],retorno[5]))]
+        return retorno
 def listar(criterio):
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
@@ -223,8 +227,10 @@ def listar(criterio):
             elif x[1][1][2] == '(D)':
                 prid.append(x)
             else:
-                nopri.append(x)    
-        return pria + prib + pric + prid + nopri #return correcu(pria,RED) + correcu(prib,BLUE) + correcu(pric,GREEN) + correcu(prid,YELLOW) + nopri) tentar
+                nopri.append(x)
+        return pria+prib+pric+prid+nopri
+        
+        '''return cor(pria,RED) + cor(prib,BLUE) + cor(pric,GREEN) + cor(prid,corr) + nopri '''#arrumar
     else:
         cri = []
         if criterio == '+' or criterio == '@':
@@ -254,15 +260,22 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return correcu(pria,RED) + correcu(prib,BLUE) + correcu(pric,GREEN) + correcu(prid,YELLOW) + nopri
+        return cor(pria,RED) + cor(prib,BLUE) + cor(pric,GREEN) + cor(prid,corr) + nopri
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
+    nodata1 = []
+    nohora = []
     for x in itens:
         if x[1][0] == '':
-            nodata.append(x)
+            nodata1.append(x)
         else:
             data.append(x)
+    for x in nodata1:
+        if x[1][1] == '':
+            nohora.append(x)
+        else:
+            nodata.append(x)
     i = 0
     while i < len(data): #bubble ano
         t = 0
@@ -306,20 +319,20 @@ def ordenarPorDataHora(itens):
     i = 0
     while i < len(nodata): #bubble hora
         t = 0
-        while t < len(data) -1:
+        while t < len(nodata) -1:
             if nodata[t][1][1][0:2] >= nodata[t+1][1][1][0:2]:
                 nodata[t],nodata[t+1] = nodata[t+1],nodata[t]
             t = t+1
         i = i+1
     i = 0
-    while i < len(data): #bubble minuto na hora
+    while i < len(nodata): #bubble minuto na hora
         t = 0
-        while t < len(data) -1:
+        while t < len(nodata) -1:
             if (nodata[t][1][1][0:2] == nodata[t+1][1][1][0:2]) and (nodata[t][1][1][2:4] >= nodata[t+1][1][1][2:4]):
                 nodata[t],nodata[t+1] = nodata[t+1],nodata[t]
             t = t+1
         i = i+1
-    itens = data+nodata
+    itens = data+nodata+nohora
     return itens
 def ordenarPorPrioridade(itens):
     nopri = []
