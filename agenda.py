@@ -180,13 +180,14 @@ def organizar(linhas):
         pri = pri.upper()
         itens.append((desc, (data, hora, pri, contexto, projeto)))
     return itens
-def correcu(lista,corr):#colocando cor recursivamente
-    if lista = []
-    return 
+def correcu(lista,corr): #colocando cor recursivamente
+    if lista == []:
+        return
     else:
         texto = lista.pop(0)
         cor = corr
-        return printCores(texto, cor), correcu(lista,corr)
+        t = [texto[0],(printCores(texto[1][0], cor),(printCores(texto[1][1][0], cor)), (printCores(texto[1][1][1], cor)), (printCores(texto[1][1][2], cor)), (printCores(texto[1][1][3], cor)), (printCores(texto[1][1][4], cor)))]
+        return t, correcu(lista,corr)
 def listar(criterio):
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
@@ -236,7 +237,7 @@ def listar(criterio):
                     if k[0] == criterio:
                         cri.append(x)
         else:
-            for x in organizadocor:
+            for x in organizadonum:
                 for k in x[1]:
                     if k == criterio:
                         cri.append(x)
@@ -257,7 +258,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return correcu(pria,RED), correcu(prib,BLUE), correcu(pric,GREEN), correcu(prid,YELLOW), nopri 
+        return correcu(pria,RED), correcu(prib,BLUE), correcu(pric,GREEN), correcu(prid,YELLOW), nopri
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
