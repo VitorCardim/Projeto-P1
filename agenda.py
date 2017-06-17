@@ -112,11 +112,7 @@ def verificar(lista,op1,op2): #funcao auxiliar para o organizar ( verifica se ai
         if x[0:1] == op1 or x[0:1] == op2:
             return True
     return False
-linhas = ''
 def organizar(linhas):
-    fp = open(TODO_FILE, 'r')
-    linhas = fp.readlines()
-    fp.close()
     itens = []
     for l in linhas:
         data = ''
@@ -187,7 +183,7 @@ def correcu(lista,corr): #colocando cor recursivamente
         texto = lista.pop(0)
         cor = corr
         t = [texto[0],(printCores(texto[1][0], cor),(printCores(texto[1][1][0], cor)), (printCores(texto[1][1][1], cor)), (printCores(texto[1][1][2], cor)), (printCores(texto[1][1][3], cor)), (printCores(texto[1][1][4], cor)))]
-        return t, correcu(lista,corr)
+        return t + [correcu(lista,corr)]
 def listar(criterio):
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
@@ -228,7 +224,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return correcu(pria,RED), correcu(prib,BLUE), correcu(pric,GREEN), correcu(prid,YELLOW), nopri
+        return correcu(pria,RED) + correcu(prib,BLUE) + correcu(pric,GREEN) + correcu(prid,YELLOW) + nopri
     else:
         cri = []
         if criterio == '+' or criterio == '@':
@@ -258,7 +254,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return correcu(pria,RED), correcu(prib,BLUE), correcu(pric,GREEN), correcu(prid,YELLOW), nopri
+        return correcu(pria,RED) + correcu(prib,BLUE) + correcu(pric,GREEN) + correcu(prid,YELLOW) + nopri
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
@@ -401,8 +397,8 @@ def priorizar(num, prioridade):
     return
 def processarComandos(comandos):
   if comandos[1] == ADICIONAR:
-    comandos.pop(0) # remove 'agenda.py'
-    comandos.pop(0) # remove 'adicionar'
+    comandos.pop(0)
+    comandos.pop(0)
     itemParaAdicionar = organizar([' '.join(comandos)])[0]
     # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
     adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
