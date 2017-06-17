@@ -412,7 +412,7 @@ def processarComandos(comandos):
   elif comandos[1] == REMOVER:
       comandos.pop(0)
       comandos.pop(0)
-      return listar(comandos[0])
+      return remover(comandos[0])
   elif comandos[1] == FAZER:
       comandos.pop(0)
       comandos.pop(0)
