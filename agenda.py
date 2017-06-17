@@ -240,9 +240,8 @@ def listar(criterio):
             elif x[1][1][2] == '(D)':
                 prid.append(x)
             else:
-                nopri.append(x)
-        
-        return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,''), nopri
+                nopri.append(x)        
+        return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
     else:
         cri = []
         if criterio == '+' or criterio == '@':
@@ -272,7 +271,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return cor(pria,RED) + cor(prib,BLUE) + cor(pric,GREEN) + cor(prid,corr) + cor(nopri,'')
+        return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
