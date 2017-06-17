@@ -25,7 +25,6 @@ def adicionar(descricao, extras):
         pri = ''
         contexto = ''
         projeto = ''
-        extras = extras.split()
         for x in extras:
             if dataValida(x) == True:
                 data = x
@@ -176,18 +175,32 @@ def organizar(linhas):
         pri = pri.upper()
         itens.append((desc, (data, hora, pri, contexto, projeto)))
     return itens
-def cor(lista,corr): #colocando cor (arrumar isso)
-    retorno = []
-    if lista == []:
-        return
-    else:
-        cor = corr
-        retorno.append(printCores(str(lista[1][0]), cor))
-        for x in lista[1][1]:
-            x = printCores(str(x),cor)
-            retorno.append(x)
-        retorno = [lista[0],(retorno[0],(retorno[1],retorno[2],retorno[3],retorno[4],retorno[5]))]
-        return retorno
+def printar(lista, cor):#printar cores e organiza com prioridade na frente pra printar
+    for k in lista:
+        printa = []
+        string = ''
+        data = k[1][1][0]
+        hora = k[1][1][1]
+        contexto = k[1][1][3]
+        projeto = k[1][1][4]
+        desc = k[1][0]
+        pri = k[1][1][2]
+        printa.append(str(k[0]))
+        printa.append(pri)
+        printa.append(data)
+        printa.append(hora)
+        printa.append(desc)
+        printa.append(contexto)
+        printa.append(projeto)
+        for x in printa:
+            string = string.strip() +' '+ x
+            string.strip()
+        if cor == '':
+            print(string)
+        else:
+            printCores(string,cor)
+    return
+    
 def listar(criterio):
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
@@ -228,9 +241,8 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return pria+prib+pric+prid+nopri
         
-        '''return cor(pria,RED) + cor(prib,BLUE) + cor(pric,GREEN) + cor(prid,corr) + nopri '''#arrumar
+        return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,''), nopri
     else:
         cri = []
         if criterio == '+' or criterio == '@':
@@ -260,7 +272,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return cor(pria,RED) + cor(prib,BLUE) + cor(pric,GREEN) + cor(prid,corr) + nopri
+        return cor(pria,RED) + cor(prib,BLUE) + cor(pric,GREEN) + cor(prid,corr) + cor(nopri,'')
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
@@ -413,15 +425,14 @@ def processarComandos(comandos):
     comandos.pop(0)
     comandos.pop(0)
     itemParaAdicionar = organizar([' '.join(comandos)])[0]
-    # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
-    adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
+    adicionar(itemParaAdicionar[0], itemParaAdicionar[1])
   elif comandos[1] == LISTAR:
       comandos.pop(0)
       comandos.pop(0)
       if len(comandos) == 1:
+          return listar(comandos[0])
+      else:
           return listar('')
-      elif len(comandos) == 2:
-          return listar(comandos[1])
   elif comandos[1] == REMOVER:
       comandos.pop(0)
       comandos.pop(0)
