@@ -45,6 +45,7 @@ def adicionar(descricao, extras):
     for x in atividade:
         novaAtividade = novaAtividade+' '+x
         novaAtividade = novaAtividade.strip()
+    print(novaAtividade)
     try:
         fp = open(TODO_FILE, 'a')
         fp.write(novaAtividade + "\n")
@@ -179,6 +180,13 @@ def organizar(linhas):
         pri = pri.upper()
         itens.append((desc, (data, hora, pri, contexto, projeto)))
     return itens
+def correcu(lista,corr):#colocando cor recursivamente
+    if lista = []
+    return 
+    else:
+        texto = lista.pop(0)
+        cor = corr
+        return printCores(texto, cor), correcu(lista,corr)
 def listar(criterio):
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
@@ -187,8 +195,12 @@ def listar(criterio):
     itens = ordenarPorDataHora(itens)
     itens = ordenarPorPrioridade(itens)
     organizado = []
-    organizadocor = []
-    organizadocornum = []
+    organizadonum = []
+    pria = []
+    prib = []
+    pric = []
+    prid = []
+    nopri = []
     for x in itens:
         data = ''
         hora = ''
@@ -197,34 +209,29 @@ def listar(criterio):
         if x[1][1] != '':
             hora = x[1][1][0:2]+'h'+x[1][1][2:4]+'m'
         organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
-    for x in organizado:
-        t = ''
-        if x[1][2] == 'a' or x[1][2] == 'A':
-            t = printCores(x, BLUE + BOLD)
-            organizadocor.append(t)
-        elif x[1][2] == 'b' or x[1][2] == 'B':
-            t = printCores(x, RED)
-            organizadocor.append(t)
-        elif x[1][2] == 'c' or x[1][2] == 'C':
-            t = printCores(x, YELLOW)
-            organizadocor.append(t)
-        elif x[1][2] == 'd' or x[1][2] == 'D':
-            t = printCores(x, GREEN)
-            organizadocor.append(t)
-        else:
-            organizadocor.append(x)
     if criterio == '':
         i = 0
         add = ''
-        while i < len(organizadocor):
-            add = [i+1]+[organizadocor[i]]
-            organizadocornum.append(add)
+        while i < len(organizado):
+            add = [i+1]+[organizado[i]]
+            organizadonum.append(add)
             i = i+1
-        return organizadocornum
+        for x in organizadonum:
+            if x[1][1][2] == '(A)':
+                pria.append(x)
+            elif x[1][1][2] == '(B)':
+                prib.append(x)
+            elif x[1][1][2] == '(C)':
+                pric.append(x)
+            elif x[1][1][2] == '(D)':
+                prid.append(x)
+            else:
+                nopri.append(x)
+        return correcu(pria,RED), correcu(prib,BLUE), correcu(pric,GREEN), correcu(prid,YELLOW), nopri
     else:
         cri = []
         if criterio == '+' or criterio == '@':
-            for x in organizadocor:
+            for x in organizado:
                 for k in x[1]:
                     if k[0] == criterio:
                         cri.append(x)
@@ -234,10 +241,23 @@ def listar(criterio):
                     if k == criterio:
                         cri.append(x)
         i = 0
+        add = ''
         while i < len(cri):
             add = [i+1]+[cri[i]]
-            organizadocornum.append(add)
-        return organizadocornum
+            organizadonum.append(add)
+            i = i+1
+        for x in organizadonum:
+            if x[1][1][2] == '(A)':
+                pria.append(x)
+            elif x[1][1][2] == '(B)':
+                prib.append(x)
+            elif x[1][1][2] == '(C)':
+                pric.append(x)
+            elif x[1][1][2] == '(D)':
+                prid.append(x)
+            else:
+                nopri.append(x)
+        return correcu(pria,RED), correcu(prib,BLUE), correcu(pric,GREEN), correcu(prid,YELLOW), nopri 
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
