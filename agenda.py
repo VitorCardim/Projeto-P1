@@ -45,7 +45,6 @@ def adicionar(descricao, extras):
     for x in atividade:
         novaAtividade = novaAtividade+' '+x
         novaAtividade = novaAtividade.strip()
-    print(novaAtividade)
     try:
         fp = open(TODO_FILE, 'a')
         fp.write(novaAtividade + "\n")
