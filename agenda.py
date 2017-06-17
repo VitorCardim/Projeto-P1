@@ -60,10 +60,10 @@ def prioridadeValida(pri):
         pri = pri.strip(')')
         pri = pri.strip()
         pri = pri.lower()
-    lista = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-    for x in lista:
-        if x == pri:
-          return True
+        lista = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+        for x in lista:
+            if x == pri:
+              return True
     return False
 def horaValida(horaMin):
     if len(horaMin) != 4 or not soDigitos(horaMin):
@@ -223,8 +223,8 @@ def listar(criterio):
             elif x[1][1][2] == '(D)':
                 prid.append(x)
             else:
-                nopri.append(x)
-        return correcu(pria,RED) + correcu(prib,BLUE) + correcu(pric,GREEN) + correcu(prid,YELLOW) + nopri
+                nopri.append(x)    
+        return pria + prib + pric + prid + nopri #return correcu(pria,RED) + correcu(prib,BLUE) + correcu(pric,GREEN) + correcu(prid,YELLOW) + nopri) tentar
     else:
         cri = []
         if criterio == '+' or criterio == '@':
