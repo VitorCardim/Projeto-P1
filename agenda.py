@@ -120,8 +120,8 @@ def organizar(linhas):
         desc = ''
         contexto = ''
         projeto = ''
-        l = l.strip()
-        tokens = l.split()
+        t = l.strip()
+        tokens = t.split()
         for x in tokens:
             if dataValida(x) == True:
                 data = x
@@ -172,8 +172,11 @@ def organizar(linhas):
         for x in tokens:
             desc = desc+' '+x
             desc = desc.strip()
-        pri = pri.upper()
-        itens.append((desc, (data, hora, pri, contexto, projeto)))
+        if desc == '':
+            'nao aprender se n tem descricao'
+        else:
+            pri = pri.upper()
+            itens.append((desc, (data, hora, pri, contexto, projeto)))
     return itens
 def printar(lista, cor):#printar cores e organiza com prioridade na frente pra printar
     for k in lista:
