@@ -241,7 +241,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)        
-        return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
+        return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
     else:
         cri = []
         if criterio == '+' or criterio == '@':
@@ -271,7 +271,7 @@ def listar(criterio):
                 prid.append(x)
             else:
                 nopri.append(x)
-        return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
+        return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
