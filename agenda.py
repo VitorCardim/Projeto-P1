@@ -1,7 +1,7 @@
 import sys
 TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
-RED   = "\033[1;31m" #ja com bold(negrito)
+RED   = "\033[1;31m"
 BLUE  = "\033[0;34m"
 CYAN  = "\033[0;36m"
 GREEN = "\033[0;32m"
