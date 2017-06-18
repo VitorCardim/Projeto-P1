@@ -177,9 +177,15 @@ def organizar(linhas):
         else:
             pri = pri.upper()
             itens.append((desc, (data, hora, pri, contexto, projeto)))
-    for x in itens:
-        if x == ('',('','','','','')):
-            itens.remove(x)
+    i = 0
+    while i < len(itens):
+        t = 0
+        while t < len(itens):
+            for x in itens:
+                if x == ('',('','','','','')):
+                    itens.remove(x)
+            t = t+1
+        i = i +1
     return itens
 def printar(lista, cor):#printar cores e organiza com prioridade na frente pra printar
     for k in lista:
@@ -246,7 +252,7 @@ def listar():
             prid.append(x)
         else:
             nopri.append(x)
-    return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'nenhuma') #vermelho já tá com negrito no código
+    return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'nenhuma') #vermelho já tá com negrito no código
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
