@@ -1,7 +1,7 @@
 import sys
 TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
-RED   = "\033[1;31m"
+RED   = "\033[1;31m" #ja com bold(negrito)
 BLUE  = "\033[0;34m"
 CYAN  = "\033[0;36m"
 GREEN = "\033[0;32m"
@@ -252,7 +252,7 @@ def listar():
             prid.append(x)
         else:
             nopri.append(x)
-    return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'nenhuma') #vermelho já tá com negrito no código
+    return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'nenhuma') #vermelho já tá com negrito no código
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
