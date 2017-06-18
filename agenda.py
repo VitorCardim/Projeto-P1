@@ -2,8 +2,8 @@ import sys
 TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
 RED   = "\033[1;31m"
-BLUE  = "\033[1;34m"
-CYAN  = "\033[1;36m"
+BLUE  = "\033[0;34m"
+CYAN  = "\033[0;36m"
 GREEN = "\033[0;32m"
 RESET = "\033[0;0m"
 BOLD    = "\033[;1m"
@@ -198,7 +198,7 @@ def printar(lista, cor):#printar cores e organiza com prioridade na frente pra p
         for x in printa:
             string = string.strip() +' '+ x
             string.strip()
-        if cor == '':
+        if cor == 'nenhuma':
             print(string)
         else:
             printCores(string,cor)
@@ -244,7 +244,7 @@ def listar():
             prid.append(x)
         else:
             nopri.append(x)
-    return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
+    return printar(pria,RED), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'nenhuma') #vermelho já tá com negrito no código
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
