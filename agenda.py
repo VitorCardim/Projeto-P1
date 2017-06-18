@@ -25,7 +25,7 @@ def adicionar(descricao, extras):
         pri = ''
         contexto = ''
         projeto = ''
-        for x in extras:
+        for x in extras:#os strips pra tirar espaços no inicio e final
             if dataValida(x) == True:
                 data = x
             elif horaValida(x) == True:
@@ -39,7 +39,7 @@ def adicionar(descricao, extras):
             elif prioridadeValida(x) == True:
                 pri = x.upper()
     atividade = data+' '+hora+' '+pri+' '+descricao+' '+contexto+' '+projeto
-    atividade = atividade.split()
+    atividade = atividade.split()#caso algum dos elementos for em branco, pra garantir sem espaçamentos, como ja estao na ordem, nao vai ter bronca os reordenar com o for
     novaAtividade = ''
     for x in atividade:
         novaAtividade = novaAtividade+' '+x
@@ -172,7 +172,7 @@ def organizar(linhas):
         for x in tokens:
             desc = desc+' '+x
             desc = desc.strip()
-        if desc == '':
+        if desc == '': #solucao encontrada para erro no processar comandos, pra processar o organizar mesmo sem a descricao e so algo valido.
             itens.append(('', ('', '', '', '', '')))
         else:
             pri = pri.upper()
@@ -211,9 +211,7 @@ def listar():
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
     fp.close()
-    fp = open(TODO_FILE, 'r')
     itens = organizar(linhas)
-    fp.close()
     itens = ordenarPorDataHora(itens)
     itens = ordenarPorPrioridade(itens)
     organizado = []
