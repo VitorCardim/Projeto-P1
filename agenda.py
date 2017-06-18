@@ -173,7 +173,7 @@ def organizar(linhas):
             desc = desc+' '+x
             desc = desc.strip()
         if desc == '':
-            'nao aprender se n tem descricao'
+            'nao se adiciona se n tem descricao'
         else:
             pri = pri.upper()
             itens.append((desc, (data, hora, pri, contexto, projeto)))
@@ -203,12 +203,13 @@ def printar(lista, cor):#printar cores e organiza com prioridade na frente pra p
         else:
             printCores(string,cor)
     return
-    
-def listar(criterio):
+def listar():
     fp = open(TODO_FILE, 'r')
     linhas = fp.readlines()
     fp.close()
+    fp = open(TODO_FILE, 'r')
     itens = organizar(linhas)
+    fp.close()
     itens = ordenarPorDataHora(itens)
     itens = ordenarPorPrioridade(itens)
     organizado = []
@@ -226,55 +227,24 @@ def listar(criterio):
         if x[1][1] != '':
             hora = x[1][1][0:2]+'h'+x[1][1][2:4]+'m'
         organizado.append((x[0], (data, hora, x[1][2], x[1][3], x[1][4])))
-    if criterio == '':
-        i = 0
-        add = ''
-        while i < len(organizado):
-            add = [i+1]+[organizado[i]]
-            organizadonum.append(add)
-            i = i+1
-        for x in organizadonum:
-            if x[1][1][2] == '(A)':
-                pria.append(x)
-            elif x[1][1][2] == '(B)':
-                prib.append(x)
-            elif x[1][1][2] == '(C)':
-                pric.append(x)
-            elif x[1][1][2] == '(D)':
-                prid.append(x)
-            else:
-                nopri.append(x)        
-        return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
-    else:
-        cri = []
-        if criterio == '+' or criterio == '@':
-            for x in organizado:
-                for k in x[1]:
-                    if k == criterio:
-                        cri.append(x)
+    i = 0
+    add = ''
+    while i < len(organizado):
+        add = [i+1]+[organizado[i]]
+        organizadonum.append(add)
+        i = i+1
+    for x in organizadonum:
+        if x[1][1][2] == '(A)':
+            pria.append(x)
+        elif x[1][1][2] == '(B)':
+            prib.append(x)
+        elif x[1][1][2] == '(C)':
+            pric.append(x)
+        elif x[1][1][2] == '(D)':
+            prid.append(x)
         else:
-            for x in organizadonum:
-                for k in x[1]:
-                    if k == criterio:
-                        cri.append(x)
-        i = 0
-        add = ''
-        while i < len(cri):
-            add = [i+1]+[cri[i]]
-            organizadonum.append(add)
-            i = i+1
-        for x in organizadonum:
-            if x[1][1][2] == '(A)':
-                pria.append(x)
-            elif x[1][1][2] == '(B)':
-                prib.append(x)
-            elif x[1][1][2] == '(C)':
-                pric.append(x)
-            elif x[1][1][2] == '(D)':
-                prid.append(x)
-            else:
-                nopri.append(x)
-        return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
+            nopri.append(x)
+    return printar(pria,RED + BOLD), printar(prib,BLUE), printar(pric,GREEN), printar(prid,YELLOW), printar(nopri,'')
 def ordenarPorDataHora(itens):
     data = []
     nodata = []
@@ -367,60 +337,131 @@ def ordenarPorPrioridade(itens):
     itens = compri+nopri
     return itens
 def fazer(num):
-    t = listar('')
-    procurar = ''
-    for x in t:
-        if num == x[0]:
-            procurar = x[1]
     fp = open(TODO_FILE, 'r')
-    analise = fp.readlines()
+    linhas = fp.readlines()
     fp.close()
-    fp = open(TODO_FILE, 'w')
-    for x in analise:
-        if x != procurar:
-            fp.write(x)
-    fp.close()
-    fp = open(ARCHIVE_FILE, 'r')
-    fp.write(procurar)
-    fp.close()
+    itens = organizar(linhas)
+    itens = ordenarPorDataHora(itens)
+    itens = ordenarPorPrioridade(itens)
+    organizado = []
+    if int(num) <= len(itens):
+        i = 0
+        while i < len(itens):
+            add = [i+1]+[itens[i]]
+            organizado.append(add)
+            i = i+1
+        for x in organizado:
+            if int(num) == x[0]:
+                apagar = x[1]
+        procurar = apagar[1][0]
+        procurar = procurar.strip()+' '+ apagar[1][1]
+        procurar = procurar.strip()+' '+ apagar[1][2]
+        procurar = procurar.strip()+' '+ apagar[0]
+        procurar = procurar.strip()+' '+ apagar[1][3]
+        procurar = procurar.strip()+' '+ apagar[1][4]
+        procurar = procurar.strip()
+        fp = open(TODO_FILE,'w')
+        for x in linhas:
+            if x != procurar +"\n":
+                fp.write(x)
+            else:
+                print(x)
+                ok = x
+        fp.close()
+        fp = open(ARCHIVE_FILE, 'a')
+        fp.write(ok)
+        fp.close()
+    else:
+        err = IOError
+        print("Não foi possível remover o arquivo, numero invalido")
+        print(err)
+        return False    
     return
 def remover(num):
-    t = listar('')
-    procurar = ''
-    try:
-        if len(t)+1 <= num:
-            for x in t:
-                if num == x[0]:
-                    procurar = x[1]
-            fp = open(TODO_FILE, 'r')
-            analise = fp.readlines()
-            fp.close()
-            fp = open(TODO_FILE, 'w')
-            for x[1] in analise:
-                if x != procurar:
-                    fp.write(x[1])
-            fp.close()
-            return
-    except IOError as err:
+    fp = open(TODO_FILE, 'r')
+    linhas = fp.readlines()
+    fp.close()
+    itens = organizar(linhas)
+    itens = ordenarPorDataHora(itens)
+    itens = ordenarPorPrioridade(itens)
+    organizado = []
+    if int(num) <= len(itens):
+        i = 0
+        while i < len(itens):
+            add = [i+1]+[itens[i]]
+            organizado.append(add)
+            i = i+1
+        for x in organizado:
+            if int(num) == x[0]:
+                apagar = x[1]
+        procurar = apagar[1][0]
+        procurar = procurar.strip()+' '+ apagar[1][1]
+        procurar = procurar.strip()+' '+ apagar[1][2]
+        procurar = procurar.strip()+' '+ apagar[0]
+        procurar = procurar.strip()+' '+ apagar[1][3]
+        procurar = procurar.strip()+' '+ apagar[1][4]
+        procurar = procurar.strip()
+        fp = open(TODO_FILE,'w')
+        for x in linhas:
+            if x != procurar +"\n":
+                fp.write(x)
+                
+    else:
+        err = IOError
         print("Não foi possível remover o arquivo, numero invalido")
         print(err)
         return False
 def priorizar(num, prioridade):
-    t = listar('')
-    procurar = ''
-    for x in t:
-        if num == x[0]:
-            procurar = x[1]
     fp = open(TODO_FILE, 'r')
-    analise = fp.readlines()
+    linhas = fp.readlines()
     fp.close()
-    fp = open(TODO_FILE, 'w')
-    for x in analise:
-        if x != procurar:
-            fp.write(x)
+    itens = organizar(linhas)
+    itens = ordenarPorDataHora(itens)
+    itens = ordenarPorPrioridade(itens)
+    organizado = []
+    prio = '('+prioridade+')'
+    fp = open(TODO_FILE,'w')
+    if int(num) <= len(itens) and (prioridadeValida(prioridade) == True or prioridadeValida(prio) == True):
+        i = 0
+        if prioridadeValida(prioridade) == True:
+            novo = prioridade
         else:
-            fp.write((procurar[0], (procurar[1][0], procurar[1][1], prioridade, procurar[1][3], procurar[1][4])))
-    fp.close()
+            novo = prio
+                            
+        while i < len(itens):
+            add = [i+1]+[itens[i]]
+            organizado.append(add)
+            i = i+1
+        for x in organizado:
+            if int(num) == x[0]:
+                apagar = x[1]
+        procurar = apagar[1][0]
+        procurar = procurar.strip()+' '+ apagar[1][1]
+        procurar = procurar.strip()+' '+ apagar[1][2]
+        procurar = procurar.strip()+' '+ apagar[0]
+        procurar = procurar.strip()+' '+ apagar[1][3]
+        procurar = procurar.strip()+' '+ apagar[1][4]
+        procurar = procurar.strip()
+        mudar = apagar[1][0]
+        mudar = mudar.strip()+' '+ apagar[1][1]
+        mudar = mudar.strip()+' '+ novo
+        mudar = mudar.strip()+' '+ apagar[0]
+        mudar = mudar.strip()+' '+ apagar[1][3]
+        mudar = mudar.strip()+' '+ apagar[1][4]
+        mudar = mudar.strip()
+        
+
+        for x in linhas:
+            if x != procurar+"\n":
+                fp.write(x)
+            else:
+                fp.write(mudar+"\n")                    
+        fp.close()
+    else:
+        err = IOError
+        print("Não foi possível remover o arquivo, numero invalido")
+        print(err)
+        return False
     return
 def processarComandos(comandos):
   if comandos[1] == ADICIONAR:
@@ -431,10 +472,7 @@ def processarComandos(comandos):
   elif comandos[1] == LISTAR:
       comandos.pop(0)
       comandos.pop(0)
-      if len(comandos) == 1:
-          return listar(comandos[0])
-      else:
-          return listar('')
+      return listar()
   elif comandos[1] == REMOVER:
       comandos.pop(0)
       comandos.pop(0)
