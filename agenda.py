@@ -173,7 +173,10 @@ def organizar(linhas):
             desc = desc+' '+x
             desc = desc.strip()
         if desc == '':
-            'nao se adiciona se n tem descricao'
+            itens.append(('', ('', '', '', '', '')))
+            err = IOError
+            print("Não foi possível adicionar a tarefa, descricao invalida")
+            print(err)
         else:
             pri = pri.upper()
             itens.append((desc, (data, hora, pri, contexto, projeto)))
@@ -198,10 +201,11 @@ def printar(lista, cor):#printar cores e organiza com prioridade na frente pra p
         for x in printa:
             string = string.strip() +' '+ x
             string.strip()
-        if cor == 'nenhuma':
-            print(string)
-        else:
-            printCores(string,cor)
+        if string != '':
+            if cor == 'nenhuma':
+                print(string)
+            else:
+                printCores(string,cor)
     return
 def listar():
     fp = open(TODO_FILE, 'r')
@@ -365,7 +369,6 @@ def fazer(num):
             if x != procurar +"\n":
                 fp.write(x)
             else:
-                print(x)
                 ok = x
         fp.close()
         fp = open(ARCHIVE_FILE, 'a')
@@ -373,7 +376,7 @@ def fazer(num):
         fp.close()
     else:
         err = IOError
-        print("Não foi possível remover o arquivo, numero invalido")
+        print("Não foi possível concluir a tarefa, numero invalido")
         print(err)
         return False    
     return
@@ -408,7 +411,7 @@ def remover(num):
                 
     else:
         err = IOError
-        print("Não foi possível remover o arquivo, numero invalido")
+        print("Não foi possível remover a tarefa, numero invalido")
         print(err)
         return False
 def priorizar(num, prioridade):
@@ -449,9 +452,7 @@ def priorizar(num, prioridade):
         mudar = mudar.strip()+' '+ apagar[1][3]
         mudar = mudar.strip()+' '+ apagar[1][4]
         mudar = mudar.strip()
-        
-
-        for x in linhas:
+       for x in linhas:
             if x != procurar+"\n":
                 fp.write(x)
             else:
@@ -459,7 +460,7 @@ def priorizar(num, prioridade):
         fp.close()
     else:
         err = IOError
-        print("Não foi possível remover o arquivo, numero invalido")
+        print("Não foi possível mudar a prioridade da tarefa, numero invalido")
         print(err)
         return False
     return
