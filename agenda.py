@@ -452,7 +452,7 @@ def priorizar(num, prioridade):
         mudar = mudar.strip()+' '+ apagar[1][3]
         mudar = mudar.strip()+' '+ apagar[1][4]
         mudar = mudar.strip()
-       for x in linhas:
+        for x in linhas:
             if x != procurar+"\n":
                 fp.write(x)
             else:
