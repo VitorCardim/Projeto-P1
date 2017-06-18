@@ -174,12 +174,12 @@ def organizar(linhas):
             desc = desc.strip()
         if desc == '':
             itens.append(('', ('', '', '', '', '')))
-            err = IOError
-            print("Não foi possível adicionar a tarefa, descricao invalida")
-            print(err)
         else:
             pri = pri.upper()
             itens.append((desc, (data, hora, pri, contexto, projeto)))
+    for x in itens:
+        if x == ('',('','','','','')):
+            itens.remove(x)
     return itens
 def printar(lista, cor):#printar cores e organiza com prioridade na frente pra printar
     for k in lista:
